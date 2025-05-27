@@ -51,7 +51,7 @@ jobs:
         run: |
           npm run dev &
           npx wait-on http://localhost:5173
-          npm run test:e2e
+          npm run test:e2e || (pkill -f "npm run dev" && exit 1)
 
   audit:
     runs-on: ubuntu-latest
