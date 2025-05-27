@@ -13,12 +13,10 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import LockIcon from '@mui/icons-material/Lock';
-import { useAuthStore } from '../store/authStore';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { getCurrentUser, updateUser } from '../services/api';
 
 export const ProfilePage = () => {
-  const { user, setAuth } = useAuthStore();
   const [edit, setEdit] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -47,8 +45,7 @@ export const ProfilePage = () => {
   // Мутация для обновления профиля
   const updateUserMutation = useMutation({
     mutationFn: updateUser,
-    onSuccess: (data) => {
-      setAuth(data, localStorage.getItem('token') || '');
+    onSuccess: () => {
       setSuccess('Данные успешно обновлены');
       setError('');
       setEdit(false);

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider, createTheme, CssBaseline, GlobalStyles } from '@mui/material';
 import { HomePage } from './pages/HomePage';
@@ -51,7 +51,7 @@ function App() {
             localStorage.removeItem('token');
             setUser(null);
           }
-        } catch (error) {
+        } catch {
           localStorage.removeItem('token');
           setUser(null);
         }

@@ -7,25 +7,25 @@ import {
   Button,
   IconButton,
   Box,
-  Rating,
-  Chip,
+  // Rating,
+  // Chip,
 } from '@mui/material';
 import { Favorite, FavoriteBorder } from '@mui/icons-material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addFavorite, removeFavorite } from '../services/api';
 import type { Product } from '../types';
-import { useCartStore } from '../store/cartStore';
+// import { useCartStore } from '../store/cartStore';
 
 interface ProductCardProps {
   product: Product & { favoriteId?: number };
   favoriteId?: number;
-  onAddToCart?: (product: Product) => void;
+  // onAddToCart?: (product: Product) => void;
   onClick?: () => void;
 }
 
-export const ProductCard = ({ product, onAddToCart, onClick, favoriteId }: ProductCardProps) => {
+export const ProductCard = ({ product, onClick, favoriteId }: ProductCardProps) => {
   const [isFavorite, setIsFavorite] = useState(!!product.isFavorite);
-  const { addItem } = useCartStore();
+  // const { addItem } = useCartStore();
   const queryClient = useQueryClient();
 
   useEffect(() => {

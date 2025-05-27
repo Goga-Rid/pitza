@@ -32,8 +32,8 @@ export const HomePage = () => {
     queryFn: getFavorites,
   });
 
-  const favoriteIds = new Set(favorites.map((f: any) => f.product_id));
-  const favoriteMap = new Map(favorites.map((f: any) => [f.product_id, f.id]));
+  const favoriteIds = new Set(favorites.map(({ product_id }) => product_id));
+  const favoriteMap = new Map(favorites.map(({ product_id, id }) => [product_id, id]));
   const allProducts = Object.values(productsByCategory as ProductsByCategory).flat();
 
   const filteredProducts = allProducts

@@ -45,7 +45,7 @@ export const Layout = ({ children }: LayoutProps) => {
               </Badge>
             </IconButton>
 
-            {isAuthenticated() ? (
+            {isAuthenticated ? (
               <>
                 <IconButton
                   component={RouterLink}

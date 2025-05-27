@@ -29,7 +29,7 @@ export const RegisterPage = () => {
 
   const { mutate: registerMutation, isPending } = useMutation({
     mutationFn: register,
-    onSuccess: async (data) => {
+    onSuccess: async () => {
       try {
         const isValid = await validateToken();
         if (isValid) {
@@ -40,13 +40,13 @@ export const RegisterPage = () => {
           setError('Ошибка валидации токена');
           localStorage.removeItem('token');
         }
-      } catch (error) {
+      } catch {
         setError('Ошибка получения данных пользователя');
         localStorage.removeItem('token');
       }
     },
-    onError: (error: any) => {
-      setError(error.response?.data?.message || 'Ошибка регистрации');
+    onError: (error: Error) => {
+        setError((error as unknown as { response: { data: { message: string } } }).response?.data?.message || 'Ошибка регистрации');
     },
   });
 

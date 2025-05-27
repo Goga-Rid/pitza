@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { Product } from '../types';
+// import type { Product } from '../types';
 
 interface FavoritesStore {
   favorites: number[];

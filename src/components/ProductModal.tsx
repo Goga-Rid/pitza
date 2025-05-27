@@ -123,7 +123,7 @@ export const ProductModal = ({ open, onClose, product }: ProductModalProps) => {
                         <Rating value={review.rating} readOnly size="small" />
                         <Typography variant="caption" color="text.secondary">
                           {(() => {
-                            const dateStr = review.createdAt || (review as any).created_at;
+                            const dateStr = review.createdAt;
                             const date = dateStr ? new Date(dateStr) : null;
                             return date && !isNaN(date.getTime())
                               ? date.toLocaleDateString('ru-RU')

@@ -29,24 +29,24 @@ export const LoginPage = () => {
 
   const { mutate: loginMutation, isPending } = useMutation({
     mutationFn: login,
-    onSuccess: async (data) => {
+    onSuccess: async () => {
       try {
         const isValid = await validateToken();
         if (isValid) {
           const user = await getCurrentUser();
           setUser(user);
-          const from = (location.state as any)?.from?.pathname || '/';
+          const from = (location.state as { from: { pathname: string } })?.from?.pathname || '/';
           navigate(from);
         } else {
           setError('Ошибка валидации токена');
           localStorage.removeItem('token');
         }
-      } catch (error) {
+      } catch {
         setError('Ошибка получения данных пользователя');
         localStorage.removeItem('token');
       }
     },
-    onError: (error: any) => {
+    onError: (error: Error) => {
       setError(error.response?.data?.message || 'Ошибка входа');
     },
   });
