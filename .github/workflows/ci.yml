@@ -47,8 +47,11 @@ jobs:
         run: npm ci
       - name: Установка браузеров Playwright
         run: npx playwright install --force
-      - name: запуск сервера и тестов E2E
-        run: npm run dev && npm run test:e2e
+      - name: Запуск сервера в фоне и запуск E2E тестов
+        run: |
+          npm run dev &
+          npx wait-on http://localhost:5173
+          npm run test:e2e
 
   audit:
     runs-on: ubuntu-latest
