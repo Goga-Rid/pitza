@@ -46,8 +46,8 @@ export const LoginPage = () => {
         localStorage.removeItem('token');
       }
     },
-    onError: (error: Error) => {
-      setError(error.response?.data?.message || 'Ошибка входа');
+    onError: (error: unknown) => {
+    setError((error as { response: { data: { message: string } } }).response?.data?.message || 'Ошибка входа');
     },
   });
 

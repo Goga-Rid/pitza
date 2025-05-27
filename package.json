@@ -6,14 +6,15 @@
   "description": "Pitza 🍕✨ - Объединяем дух Петербурга и любовь к пицце!  Проект для пицца-энтузиастов из Санкт-Петербурга (и не только).",
   "main": "index.js",
   "scripts": {
-    "dev": "vite",
+    "start": "vite",
+    "dev": "vite --host 0.0.0.0",
     "test": "vitest run",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "preview": "vite preview",
     "test:e2e": "playwright test --reporter=list",
-    "test:e2e:ci": "start-server-and-test dev http://localhost:5173 test:e2e",
+    "test:e2e:ci": "start-server-and-test start http://localhost:5173 test:e2e",
     "clean:test-results": "rm -rf test-results"
   },
   "keywords": [],
