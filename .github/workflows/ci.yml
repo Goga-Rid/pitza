@@ -46,10 +46,9 @@ jobs:
       - name: Установка зависимостей
         run: npm ci
       - name: Установка браузеров Playwright
-        run: npx playwright install --with-deps
+        run: npx playwright install --force
       - name: Запуск сервера и E2E тестов
         run: npm run test:e2e:ci
-        
   audit:
     runs-on: ubuntu-latest
     needs: e2e-tests
