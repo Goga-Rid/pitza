@@ -1,12 +1,58 @@
+name: CI/CD Pipeline
 
-name: Build and Deploy
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Установка Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Установка зависимостей
+        run: npm ci
+      - name: Линтинг
+        run: npm run lint
+
+  test:
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v3
+      - name: Установка Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Установка зависимостей
+        run: npm ci
+      - name: Тесты
+        run: npm run test
+
+  e2e-tests:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v3
+      - name: Установка Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Установка зависимостей
+        run: npm ci
+      - name: Установка браузеров Playwright
+        run: npx playwright install --force
+      - name: Запуск E2E тестов
+        run: npm run test:e2e
+
   audit:
     runs-on: ubuntu-latest
+    needs: e2e-tests
     steps:
       - uses: actions/checkout@v3
       - name: Установка Node.js
@@ -71,4 +117,4 @@ jobs:
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/pitza:latest
             docker stop pitza || true
             docker rm pitza || true
-            docker run -d --name pitza -p 80:80 ${{ secrets.DOCKERHUB_USERNAME }}/pitza:latest 
+            docker run -d --name pitza -p 80:80 ${{ secrets.DOCKERHUB_USERNAME }}/pitza:latest
