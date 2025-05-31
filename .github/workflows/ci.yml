@@ -122,12 +122,9 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Сборка и публикация Docker-образа
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/pitza:latest
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/pitza:latest .
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/pitza:latest
 
   deploy:
     runs-on: ubuntu-latest
