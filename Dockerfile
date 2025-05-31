@@ -9,7 +9,7 @@ RUN npm run build
 # === Финальный этап — только статика ===
 FROM alpine:latest
 WORKDIR /dist
-COPY --from=build /app/dist ./
+COPY --from=build /app/dist /dist
 VOLUME ["/dist"]
 
 CMD ["sleep", "infinity"]
