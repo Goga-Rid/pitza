@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: CI/CD Frontend
 
 on:
   push:
@@ -134,13 +134,16 @@ jobs:
     needs: docker
     steps:
       - name: Деплой на сервер через SSH
-        uses: appleboy/ssh-action@v1
+        uses: appleboy/ssh-action@v1.2.2
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_PORT }}
           script: |
+            # логин в Docker Hub
+            docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+            # подгрузка последнего образа
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/pitza:latest
-            docker stop pitza || true
-            docker rm pitza || true
-            docker run -d --name pitza -p 80:80 ${{ secrets.DOCKERHUB_USERNAME }}/pitza:latest
+            # запуск контейнеров
+            docker-compose -f /home/ubuntu/docker-compose.yml up -d --remove-orphans
