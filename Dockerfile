@@ -11,3 +11,5 @@ FROM alpine:latest
 WORKDIR /dist
 COPY --from=build /app/dist ./
 VOLUME ["/dist"]
+
+CMD ["sleep", "infinity"]
