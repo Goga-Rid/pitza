@@ -9,7 +9,7 @@ RUN npm run build
 # === Финальный этап — копирование в volume ===
 FROM alpine:latest
 WORKDIR /dist
-COPY --from=builder /app/dist ./
+COPY --from=build /app/dist ./
 
 # Экспорт статики в volume
 VOLUME ["/dist"]
