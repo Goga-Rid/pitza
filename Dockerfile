@@ -9,7 +9,10 @@ RUN npm run build
 # === Финальный этап — копирование в volume ===
 FROM alpine:latest
 WORKDIR /dist
-COPY --from=build /app/dist ./
+COPY --from=builder /app/dist ./
 
 # Экспорт статики в volume
 VOLUME ["/dist"]
+
+# Команда, которая держит контейнер запущенным
+CMD ["sh", "-c", "echo 'Frontend static files are ready in /dist'; sleep infinity"]
