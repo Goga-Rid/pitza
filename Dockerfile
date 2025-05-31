@@ -6,8 +6,10 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-# === Финальный образ — только статика ===
+# === Финальный этап — копирование в volume ===
 FROM alpine:latest
 WORKDIR /dist
-COPY --from=build /app/dist .
-EXPOSE 80
+COPY --from=build /app/dist ./
+
+# Экспорт статики в volume
+VOLUME ["/dist"]
