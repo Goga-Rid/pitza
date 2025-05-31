@@ -15,7 +15,8 @@
     "preview": "vite preview",
     "test:e2e": "playwright test --reporter=list",
     "test:e2e:ci": "start-server-and-test start http://localhost:5173 test:e2e",
-    "clean:test-results": "rm -rf test-results"
+    "clean:test-results": "rm -rf test-results",
+    "mock:backend": "json-server --watch ./tests/mock-api/db.json --port 8081"
   },
   "keywords": [],
   "author": "",
@@ -47,6 +48,7 @@
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.1.0",
     "jsdom": "^26.1.0",
+    "json-server": "^0.17.4",
     "start-server-and-test": "^2.0.12",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.32.1",

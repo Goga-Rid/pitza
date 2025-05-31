@@ -17,10 +17,10 @@ docker-stop:
 install:
 	npm ci
 
-# Локальная разработка (vite)
+# локальная разработка (vite)
 dev:
 	npm run dev
-# Сборка
+# сборка
 build:
 	npm run build
 # линтер
@@ -30,12 +30,15 @@ lint:
 lint-fix:
 	npm run lint:fix
 
-test:
+test-unit:
 	npm run test
 
 test-e2e:
-	npm run test:e2e
+	npm run mock:backend & sleep 5 && npm run dev & sleep 5 && npm run test:e2e:ci
 
 clean-test-results:
 	npm run clean:test-results
 
+# для получения mock backend
+mock-backend:
+	npm run mock:backend

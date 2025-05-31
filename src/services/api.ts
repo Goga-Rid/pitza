@@ -14,14 +14,10 @@ import type {
 } from '../types';
 import { useAuthStore } from '../store/authStore';
 
-// Используем переменную окружения или относительный путь по умолчанию
 const API_URL = import.meta.env.VITE_API_URL || '/api';
 
 const api = axios.create({
   baseURL: API_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
 });
 
 // Добавляем токен к каждому запросу

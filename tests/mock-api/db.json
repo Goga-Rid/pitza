@@ -1,0 +1,38 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Пицца Маргарита",
+      "description": "Классическая пицца с томатным соусом и сыром моцарелла.",
+      "price": 450,
+      "category": "Классические",
+      "image_url": null,
+      "available": true,
+      "created_at": "2024-05-31T12:00:00Z"
+    },
+    {
+      "id": 2,
+      "name": "Пицца Пепперони",
+      "description": "Пикантная пицца с пепперони и сыром.",
+      "price": 520,
+      "category": "Острые",
+      "image_url": null,
+      "available": true,
+      "created_at": "2024-05-31T12:10:00Z"
+    },
+    {
+      "id": 3,
+      "name": "Пицца Вегетарианская",
+      "description": "Пицца с овощами и сыром.",
+      "price": 480,
+      "category": "Вегетарианские",
+      "image_url": null,
+      "available": false,
+      "created_at": "2024-05-31T12:20:00Z"
+    }
+  ],
+  "favorites": [
+    { "id": 1, "product_id": 1 },
+    { "id": 2, "product_id": 2 }
+  ]
+}

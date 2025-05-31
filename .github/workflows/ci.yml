@@ -72,6 +72,10 @@ jobs:
           node-version: '18'
           cache: 'npm'
       - run: npm ci
+      - name: Запуск mock backend
+        run: |
+          npx json-server --watch ./tests/mock-api/db.json --port 8081 &
+          sleep 5
       - name: Установка браузеров Playwright
         run: npx playwright install --with-deps
       - name: E2E тесты
