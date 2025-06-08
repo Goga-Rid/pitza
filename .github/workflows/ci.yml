@@ -146,9 +146,13 @@ jobs:
             docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
             # подгрузка последнего образа
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/pitza:latest
-            # перезапуск только frontend (статический контейнер)
-            docker-compose -f /home/ubuntu/docker-compose.yml up -d --force-recreate --no-deps frontend
+            # остановка контейнера nginx
+            docker-compose -f /home/ubuntu/docker-compose.yml stop nginx
+            # остановка контейнера frontend
+            docker-compose -f /home/ubuntu/docker-compose.yml stop frontend
+            # перезапуск контейнера frontend (чтобы появилась статика в volume)
+            docker-compose -f /home/ubuntu/docker-compose.yml up -d frontend
             # перезапуск nginx (чтобы nginx увидел обновлённую статику)
-            docker-compose -f /home/ubuntu/docker-compose.yml restart nginx
+            docker-compose -f /home/ubuntu/docker-compose.yml up -d nginx
             # очистка неиспользуемых образов
             docker image prune -f
