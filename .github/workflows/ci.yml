@@ -147,7 +147,7 @@ jobs:
             # Подтягиваем последний образ frontend
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/pitza:latest
             # Остановка frontend
-            docker-compose -f /home/ubuntu/docker-compose.yml down frontend
+            docker-compose -f /home/ubuntu/docker-compose.yml stop frontend
             # Перезапускаем только frontend (статический контейнер)
             docker-compose -f /home/ubuntu/docker-compose.yml up -d --force-recreate --no-deps frontend
             # Перезапускаем nginx, чтобы обновить статику
