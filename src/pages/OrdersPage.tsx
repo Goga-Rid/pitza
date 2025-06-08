@@ -69,10 +69,10 @@ export const OrdersPage = () => {
                         Заказ №{order.id}
                       </Typography>
                       <Typography color="text.secondary" sx={{ mb: 1 }}>
-                        {new Date(order.created_at).toLocaleString('ru-RU', { 
-                            dateStyle: 'medium', 
-                            timeStyle: 'short', 
-                            timeZone: 'Europe/Moscow' 
+                        {new Date(order.created_at.replace(' ', 'T') + 'Z').toLocaleString('ru-RU', {
+                          dateStyle: 'medium',
+                          timeStyle: 'short',
+                          timeZone: 'Europe/Moscow',
                         })}
                       </Typography>
                       <Chip 
@@ -101,4 +101,4 @@ export const OrdersPage = () => {
       )}
     </Box>
   );
-}; 
+};

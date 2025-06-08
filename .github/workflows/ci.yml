@@ -142,11 +142,13 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
+            # логин в DockerHub
+            docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
             # подгрузка последнего образа
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/pitza:latest
-            # остановка старого контейнера
-            docker-compose -f /home/ubuntu/docker-compose.yml stop frontend
-            # удаление старого образа
+            # перезапуск только frontend (статический контейнер)
+            docker-compose -f /home/ubuntu/docker-compose.yml up -d --force-recreate --no-deps frontend
+            # перезапуск nginx (чтобы nginx увидел обновлённую статику)
+            docker-compose -f /home/ubuntu/docker-compose.yml restart nginx
+            # очистка неиспользуемых образов
             docker image prune -f
-            # запуск нового контейнера
-            docker-compose -f /home/ubuntu/docker-compose.yml up -d --no-deps frontend
