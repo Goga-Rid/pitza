@@ -142,11 +142,11 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            # логин в Docker Hub
-            docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
             # подгрузка последнего образа
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/pitza:latest
-            # Удаление старых контейнеров
+            # остановка старого контейнера
+            docker-compose -f /home/ubuntu/docker-compose.yml stop frontend
+            # удаление старого образа
             docker image prune -f
-            # запуск контейнеров
-            docker-compose -f /home/ubuntu/docker-compose.yml up -d --remove-orphans
+            # запуск нового контейнера
+            docker-compose -f /home/ubuntu/docker-compose.yml up -d --no-deps frontend
