@@ -10,5 +10,3 @@ RUN npm run build
 FROM alpine:latest
 WORKDIR /dist
 COPY --from=build /app/dist /dist
-
-VOLUME ["/dist"]
