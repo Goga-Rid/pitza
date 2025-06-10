@@ -11,6 +11,7 @@ import type {
   Favorite,
   CreateFavorite,
   User,
+  DeleteFavorite
 } from '../types';
 import { useAuthStore } from '../store/authStore';
 
@@ -96,7 +97,7 @@ export const getFavorites = () =>
 export const addFavorite = (data: CreateFavorite) =>
   api.post<Favorite>('/user/favorites', data).then(res => res.data);
 
-export const removeFavorite = (favoriteId: number) =>
-  api.delete(`/user/favorites/${favoriteId}`).then(res => res.data);
+export const removeFavorite = (data: DeleteFavorite) =>
+  api.delete('/user/favorites', data).then(res => res.data);
 
 export default api;

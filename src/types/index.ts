@@ -85,4 +85,8 @@ export interface Favorite {
 
 export interface CreateFavorite {
   product_id: number;
-} 
+}
+
+export interface DeleteFavorite {
+  product_id: number;
+}
