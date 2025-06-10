@@ -41,7 +41,7 @@ export const ProductCard = ({ product, onClick, favoriteId }: ProductCardProps) 
   });
 
   const { mutate: removeFromFavorites } = useMutation({
-    mutationFn: (id: number) => removeFavorite(id),
+    mutationFn: () => removeFavorite({ product_id: product.id }),
     onSuccess: () => {
       setIsFavorite(false);
       queryClient.invalidateQueries({ queryKey: ['favorites'] });
