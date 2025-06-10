@@ -98,6 +98,6 @@ export const addFavorite = (data: CreateFavorite) =>
   api.post<Favorite>('/user/favorites', data).then(res => res.data);
 
 export const removeFavorite = (data: DeleteFavorite) =>
-  api.delete('/user/favorites', data).then(res => res.data);
+  api.delete('/user/favorites', { data }).then(res => res.data);
 
 export default api;
