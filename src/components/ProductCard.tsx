@@ -38,7 +38,11 @@ export const ProductCard = ({ product, onClick, favoriteId }: ProductCardProps) 
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     const id = favoriteId ?? product.favoriteId;
-    isFavorite ? (typeof id === 'number' && removeFromFavorites(id)) : addToFavorites();
+    if (isFavorite) {
+      if (typeof id === 'number') removeFromFavorites(id);
+    } else {
+      addToFavorites();
+    }
     setIsFavorite(!isFavorite);
   };
 

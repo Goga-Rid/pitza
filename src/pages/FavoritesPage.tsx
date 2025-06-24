@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getFavorites, getProducts } from '../services/api';
 import { useState, useMemo } from 'react';
-import { Box, Typography, Container, CircularProgress } from '@mui/material';
+import { Box, Typography, Container } from '@mui/material';
 import { ProductCard } from '../components/ProductCard';
 import { useCartStore } from '../store/cartStore';
 import { ProductModal } from '../components/ProductModal';
