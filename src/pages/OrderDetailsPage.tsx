@@ -1,13 +1,13 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getOrderById, getProducts } from '../services/api';
+import { PizzaSpinner } from '../components/PizzaSpinner';
 import {
   Box,
   Typography,
   Card,
   CardContent,
   Chip,
-  CircularProgress,
   Button,
   Divider,
   IconButton,
@@ -59,9 +59,22 @@ export const OrderDetailsPage = () => {
 
   if (isLoading || !order) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 8 }}>
-        <CircularProgress />
-      </Box>
+      <Box
+            sx={{
+              minHeight: '60vh',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1    }}>
+              <PizzaSpinner />
+              <Typography variant="h6" sx={{ color: '#dc5b05', fontSize: 30, fontWeight: 700 }}>
+                Загрузка данных о заказах...
+              </Typography>
+            </Box>
+          </Box>
     );
   }
 

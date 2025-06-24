@@ -9,6 +9,7 @@ import { ProfilePage } from './pages/ProfilePage';
 import { OrdersPage } from './pages/OrdersPage';
 import { OrderDetailsPage } from './pages/OrderDetailsPage';
 import { Topbar } from './components/Topbar';
+import { Footer } from './components/Footer';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { useEffect } from 'react';
 import { useAuthStore } from './store/authStore';
@@ -33,6 +34,12 @@ const theme = createTheme({
       main: '#66bb6a', // зеленый
     },
   },
+  typography: {
+    fontFamily: [
+      'Inter',
+      'sans-serif',
+    ].join(','),
+  },
 });
 
 function App() {
@@ -46,7 +53,17 @@ function App() {
           const isValid = await validateToken();
           if (isValid) {
             const user = await getCurrentUser();
-            setUser(user);
+            // Ensure the user object has all required User fields
+            if (
+              user &&
+              'address' in user &&
+              'created_at' in user &&
+              'role' in user
+            ) {
+              setUser(user);
+            } else {
+              setUser(null);
+            }
           } else {
             localStorage.removeItem('token');
             setUser(null);
@@ -82,49 +99,59 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <GlobalStyles styles={{
-          html: { background: '#fff', width: '100%', minHeight: '100%' },
-          body: { background: '#fff', width: '100%', minHeight: '100vh', margin: 0, padding: 0 },
+          html: { background: '#F0F0F0', width: '100%', minHeight: '100%' },
+          body: { background: '#F0F0F0', width: '100%', minHeight: '100vh', margin: 0, padding: 0 },
           '#root': { minHeight: '100vh', width: '100%' },
         }} />
         <Router>
-          <Topbar />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route 
-              path="/favorites" 
-              element={
-                <ProtectedRoute>
-                  <FavoritesPage />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/profile" 
-              element={
-                <ProtectedRoute>
-                  <ProfilePage />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/orders" 
-              element={
-                <ProtectedRoute>
-                  <OrdersPage />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/orders/:id" 
-              element={
-                <ProtectedRoute>
-                  <OrderDetailsPage />
-                </ProtectedRoute>
-              } 
-            />
-          </Routes>
+          <div style={{
+            minHeight: '100vh',
+            display: 'flex',
+            flexDirection: 'column',
+            background: '#F0F0F0',
+          }}>
+            <Topbar />
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route 
+                  path="/favorites" 
+                  element={
+                    <ProtectedRoute>
+                      <FavoritesPage />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="/profile" 
+                  element={
+                    <ProtectedRoute>
+                      <ProfilePage />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="/orders" 
+                  element={
+                    <ProtectedRoute>
+                      <OrdersPage />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="/orders/:id" 
+                  element={
+                    <ProtectedRoute>
+                      <OrderDetailsPage />
+                    </ProtectedRoute>
+                  } 
+                />
+              </Routes>
+            </div>
+            <Footer />
+          </div>
         </Router>
       </ThemeProvider>
     </QueryClientProvider>

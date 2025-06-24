@@ -55,11 +55,28 @@ export const register = (credentials: RegisterCredentials) =>
     return res.data;
   });
 
-export const validateToken = () =>
-  api.get<{ status: string }>('/validate').then(res => res.data.status === 'valid');
+export const validateToken = () => {
+  if (import.meta.env.MODE === 'development') {
+    // Для моков всегда валидно
+    return Promise.resolve(true);
+  }
+  return api.get<{ status: string }>('/validate').then(res => res.data.status === 'valid');
+};
 
-export const getCurrentUser = () =>
-  api.get<User>('/me').then(res => res.data);
+export const getCurrentUser = () => {
+  if (import.meta.env.MODE === 'development') {
+    // Можно возвращать тестового пользователя (например, первого из users)
+    return Promise.resolve({
+    
+      "email": "Hexlet@mail.ru",
+      "password": "$2a$10$B9LLKrho//3pj/7h6RicxuMYgl0ixFxKcZK8C7C8GS9lMghWIHXry",
+      "name": "Чувак",
+      "id": 1
+    
+    });
+  }
+  return api.get<User>('/me').then(res => res.data);
+};
 
 export const updateUser = (data: UpdateUserData) => 
   api.put<User>('/me', data).then(res => res.data);
@@ -88,7 +105,7 @@ export const getProductReviews = (productId: number) =>
 
 // Products endpoint
 export const getProducts = () => 
-  api.get<{ [key: string]: Product[] }>('/user/products').then(res => res.data);
+  api.get<Product[]>('/products').then(res => res.data);
 
 // Favorites endpoints
 export const getFavorites = () =>

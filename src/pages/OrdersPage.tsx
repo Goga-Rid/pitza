@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getUserOrders } from '../services/api';
 import { useNavigate } from 'react-router-dom';
+import { PizzaSpinner } from '../components/PizzaSpinner';
 import {
   Box,
   Typography,
@@ -43,9 +44,22 @@ export const OrdersPage = () => {
 
   if (isLoading) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 8 }}>
-        <CircularProgress />
+      <Box
+      sx={{
+        minHeight: '60vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 1    }}>
+        <PizzaSpinner />
+        <Typography variant="h6" sx={{ color: '#dc5b05', fontSize: 30, fontWeight: 700 }}>
+          Загрузка заказов...
+        </Typography>
       </Box>
+    </Box>
     );
   }
 

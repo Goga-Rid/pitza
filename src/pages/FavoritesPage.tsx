@@ -5,6 +5,7 @@ import { Box, Typography, Container, CircularProgress } from '@mui/material';
 import { ProductCard } from '../components/ProductCard';
 import { useCartStore } from '../store/cartStore';
 import { ProductModal } from '../components/ProductModal';
+import { PizzaSpinner } from '../components/PizzaSpinner';
 import type { Product } from '../types';
 
 export const FavoritesPage = () => {
@@ -41,11 +42,22 @@ export const FavoritesPage = () => {
   };
 
   if (favLoading || prodLoading) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 8 }}>
-        <CircularProgress />
+    return <Box
+      sx={{
+        minHeight: '60vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 1    }}>
+        <PizzaSpinner />
+        <Typography variant="h6" sx={{ color: '#dc5b05', fontSize: 30, fontWeight: 700 }}>
+          Загрузка избранных...
+        </Typography>
       </Box>
-    );
+    </Box>
   }
 
   return (

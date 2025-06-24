@@ -15,6 +15,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import LockIcon from '@mui/icons-material/Lock';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { getCurrentUser, updateUser } from '../services/api';
+import { PizzaSpinner } from '../components/PizzaSpinner';
 
 export const ProfilePage = () => {
   const [edit, setEdit] = useState(false);
@@ -84,9 +85,22 @@ export const ProfilePage = () => {
 
   if (isLoading) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 8 }}>
-        <Typography>Загрузка...</Typography>
-      </Box>
+      <Box
+            sx={{
+              minHeight: '60vh',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1    }}>
+              <PizzaSpinner />
+              <Typography variant="h6" sx={{ color: '#dc5b05', fontSize: 30, fontWeight: 700 }}>
+                Загрузка профиля...
+              </Typography>
+            </Box>
+          </Box>
     );
   }
 

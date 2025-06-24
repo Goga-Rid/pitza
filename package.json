@@ -5,7 +5,7 @@
   "version": "0.0.0",
   "description": "Pitza 🍕✨ - Объединяем дух Петербурга и любовь к пицце!  Проект для пицца-энтузиастов из Санкт-Петербурга (и не только).",
   "main": "index.js",
-  "scripts": {
+"scripts": {
     "start": "vite",
     "dev": "vite --host 0.0.0.0",
     "test": "vitest run",
@@ -16,8 +16,8 @@
     "test:e2e": "playwright test --reporter=list",
     "test:e2e:ci": "start-server-and-test start http://localhost:5173 test:e2e",
     "clean:test-results": "rm -rf test-results",
-    "mock:backend": "json-server --watch ./tests/mock-api/db.json --port 8081"
-  },
+    "mock:backend": "json-server --watch ./tests/mock-api/db.json -m ./node_modules/json-server-auth --port 8081"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -39,7 +39,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@types/node": "^22.15.21",
-    "@types/react": "^19.1.5",
+    "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.5",
     "@vitejs/plugin-react": "^4.5.0",
     "@vitest/ui": "^3.1.4",
@@ -49,6 +49,7 @@
     "globals": "^16.1.0",
     "jsdom": "^26.1.0",
     "json-server": "^0.17.4",
+    "json-server-auth": "^2.1.0",
     "start-server-and-test": "^2.0.12",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.32.1",

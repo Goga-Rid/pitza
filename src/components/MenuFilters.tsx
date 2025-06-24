@@ -41,16 +41,21 @@ export const MenuFilters = ({ searchTerm, setSearchTerm, selectedCategory, setSe
           <IconButton
             onClick={handleOpen}
             sx={{
-              width: 48,
-              height: 48,
-              borderRadius: '50%',
-              background: '#fff',
-              boxShadow: '0 2px 8px 0 rgba(0,0,0,0.06)',
+              width: 55,
+              height: 55,
+              background: '#F0F0F0',
               transition: 'background 0.2s',
-              '&:hover': { background: '#f5f5f5' },
+              color: '#222',
+              '&:hover': {
+                background: '#dc5b05',
+                color: '#fff',
+                '& .MuiSvgIcon-root': {
+                  color: '#fff',
+                },
+              },
             }}
           >
-            <SearchIcon />
+            <SearchIcon sx={{ color: 'inherit', transition: 'color 0.2s', fontSize: 34 }} />
           </IconButton>
         )}
         <TextField
@@ -66,8 +71,9 @@ export const MenuFilters = ({ searchTerm, setSearchTerm, selectedCategory, setSe
             ml: open ? 0 : '-48px',
             px: 0,
             background: '#fff',
+            border: '1px solid #f5f5f5',
             borderRadius: 2,
-            boxShadow: open ? '0 2px 8px 0 rgba(0,0,0,0.06)' : 'none',
+            boxShadow: 'none',
             transition: 'width 0.3s, opacity 0.2s, box-shadow 0.2s, margin 0.3s',
             pointerEvents: open ? 'auto' : 'none',
             position: 'static',
@@ -91,7 +97,7 @@ export const MenuFilters = ({ searchTerm, setSearchTerm, selectedCategory, setSe
             variant={selectedCategory === category ? 'contained' : 'text'}
             onClick={() => setSelectedCategory(category)}
             sx={{
-              background: selectedCategory === category ? '#FF6900' : 'transparent',
+              background: selectedCategory === category ? '#dc5b05' : 'transparent',
               color: selectedCategory === category ? '#fff' : '#222',
               borderRadius: 3,
               fontWeight: 600,
@@ -101,7 +107,7 @@ export const MenuFilters = ({ searchTerm, setSearchTerm, selectedCategory, setSe
               fontSize: 16,
               boxShadow: 'none',
               '&:hover': {
-                background: selectedCategory === category ? '#ff8500' : '#f5f5f5',
+                background: selectedCategory === category ? '#FF6900' : '#f5cba7',
                 color: selectedCategory === category ? '#fff' : '#222',
               },
             }}

@@ -96,7 +96,7 @@ export const ProductModal = ({ open, onClose, product }: ProductModalProps) => {
           <Button
             variant="contained"
             size="large"
-            sx={{ background: '#FF6900', color: '#fff', borderRadius: 3, fontWeight: 700, fontSize: 18, py: 1.5, mt: 2, textTransform: 'none' }}
+            sx={{ background: '#dc5b05', color: '#fff', borderRadius: 3, fontWeight: 700, fontSize: 18, py: 1.5, mt: 2, textTransform: 'none' }}
             fullWidth
             onClick={handleAddToCart}
             disabled={!product.available}

@@ -19,6 +19,8 @@ import { useState } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { getCurrentUser, createOrder } from '../services/api';
 import { AddressModal } from './AddressModal';
+import type { User } from '../types';
+import { useNavigate } from 'react-router-dom';
 
 interface CartDrawerProps {
   open: boolean;
@@ -27,6 +29,7 @@ interface CartDrawerProps {
 
 export const CartDrawer = ({ open, onClose }: CartDrawerProps) => {
   const { items, addItem, updateQuantity, removeItem, clearCart } = useCartStore();
+  const navigate = useNavigate();
   const grouped = items.reduce<{ [id: number]: { item: typeof items[0]; count: number } }>((acc, item) => {
     if (acc[item.product.id]) {
       acc[item.product.id].count += item.quantity;
@@ -41,10 +44,11 @@ export const CartDrawer = ({ open, onClose }: CartDrawerProps) => {
 
   const [addressModalOpen, setAddressModalOpen] = useState(false);
   const [orderError, setOrderError] = useState('');
-  const { data: user, refetch: refetchUser } = useQuery({
+  const { data: user, refetch: refetchUser } = useQuery<User | null>({
     queryKey: ['me'],
     queryFn: getCurrentUser,
     enabled: open,
+    retry: false,
   });
   const { mutate: submitOrder, isPending: isOrderPending } = useMutation({
     mutationFn: () => createOrder(products.map(({ item, count }) => ({ product_id: item.product.id, quantity: count }))),
@@ -60,7 +64,14 @@ export const CartDrawer = ({ open, onClose }: CartDrawerProps) => {
   });
 
   const handleOrder = () => {
-    if (!user?.address) {
+    if (!user) {
+      onClose();
+      setTimeout(() => {
+        navigate('/register', { state: { from: 'cart', message: 'Зарегистрируйтесь для оформления заказа' } });
+      }, 200);
+      return;
+    }
+    if (!user.address) {
       setAddressModalOpen(true);
       return;
     }

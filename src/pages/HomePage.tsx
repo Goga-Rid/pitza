@@ -10,6 +10,7 @@ import { ProductCard } from '../components/ProductCard';
 import { useCartStore } from '../store/cartStore';
 import { MenuFilters } from '../components/MenuFilters';
 import { ProductModal } from '../components/ProductModal';
+import { PizzaSpinner } from '../components/PizzaSpinner';
 import type { Product } from '../types';
 
 interface ProductsByCategory {
@@ -62,18 +63,28 @@ export const HomePage = () => {
 
   if (isLoading) {
     return (
-      <Container>
-        <Typography>Загрузка...</Typography>
-      </Container>
-    );
+      <Box
+      sx={{
+        minHeight: '60vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 1    }}>
+        <PizzaSpinner />
+        <Typography variant="h6" sx={{ color: '#dc5b05', fontSize: 30, fontWeight: 700 }}>
+          Загрузка пицц...
+        </Typography>
+      </Box>
+    </Box>
+  );
   }
 
   return (
-    <Box sx={{ background: '#fff', minHeight: '100vh', py: 0 }}>
-      <Container maxWidth="lg" sx={{ pt: 6, pb: 8 }}>
-        <Typography variant="h4" component="h1" sx={{ fontWeight: 800, mb: 5, letterSpacing: 0.5 }}>
-          Меню
-        </Typography>
+    <Box sx={{ background: '#F0F0F0', minHeight: '100vh', py: 0 }}>
+      <Container maxWidth="lg" sx={{ pt: 4, pb:  8}}>
         <MenuFilters
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
@@ -105,4 +116,4 @@ export const HomePage = () => {
       </Container>
     </Box>
   );
-}; 
+};

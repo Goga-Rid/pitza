@@ -1,36 +1,24 @@
 import { useState, useEffect } from 'react';
 import {
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-  Button,
-  IconButton,
-  Box,
-  // Rating,
-  // Chip,
+  Card, CardContent, CardMedia, Typography, Button, IconButton, Box,
 } from '@mui/material';
 import { Favorite, FavoriteBorder } from '@mui/icons-material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addFavorite, removeFavorite } from '../services/api';
 import type { Product } from '../types';
-// import { useCartStore } from '../store/cartStore';
 
 interface ProductCardProps {
   product: Product & { favoriteId?: number };
   favoriteId?: number;
-  // onAddToCart?: (product: Product) => void;
   onClick?: () => void;
 }
 
 export const ProductCard = ({ product, onClick, favoriteId }: ProductCardProps) => {
   const [isFavorite, setIsFavorite] = useState(!!product.isFavorite);
-  // const { addItem } = useCartStore();
+  const [quantity, setQuantity] = useState(0);
   const queryClient = useQueryClient();
 
-  useEffect(() => {
-    setIsFavorite(!!product.isFavorite);
-  }, [product.isFavorite]);
+  useEffect(() => setIsFavorite(!!product.isFavorite), [product.isFavorite]);
 
   const { mutate: addToFavorites } = useMutation({
     mutationFn: () => addFavorite({ product_id: product.id }),
@@ -39,7 +27,6 @@ export const ProductCard = ({ product, onClick, favoriteId }: ProductCardProps) 
       queryClient.invalidateQueries({ queryKey: ['favorites'] });
     },
   });
-
   const { mutate: removeFromFavorites } = useMutation({
     mutationFn: (id: number) => removeFavorite({ product_id: id }),
     onSuccess: () => {
@@ -50,52 +37,67 @@ export const ProductCard = ({ product, onClick, favoriteId }: ProductCardProps) 
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (isFavorite) {
-      setIsFavorite(false);
-      const id = favoriteId ?? product.favoriteId;
-      if (typeof id === 'number') {
-        removeFromFavorites(id);
-      }
-    } else {
-      setIsFavorite(true);
-      addToFavorites();
-    }
+    const id = favoriteId ?? product.favoriteId;
+    isFavorite ? (typeof id === 'number' && removeFromFavorites(id)) : addToFavorites();
+    setIsFavorite(!isFavorite);
+  };
+
+  const handleQuantity = (delta: number) => (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setQuantity(q => Math.max(0, q + delta));
   };
 
   return (
     <Card
       onClick={onClick}
       sx={{
-        maxWidth: 340,
         width: '100%',
-        height: '100%',
+        maxWidth: 400,
+        minWidth: 270,
         display: 'flex',
         flexDirection: 'column',
         borderRadius: 4,
-        boxShadow: '0 4px 24px 0 rgba(0,0,0,0.06)',
-        p: 2,
-        transition: 'box-shadow 0.2s',
-        '&:hover': { boxShadow: '0 8px 32px 0 rgba(0,0,0,0.10)', cursor: 'pointer' },
+        boxShadow: '0 4px 18px rgba(60,60,60,0.18)', // тень темнее и чуть больше
+        p: 0,
+        transition: 'transform 0.2s, box-shadow 0.2s',
+        '&:hover': {
+          transform: 'translateY(-4px)',
+          cursor: 'pointer',
+          boxShadow: '0 8px 28px rgba(60,60,60,0.22)', // тень темнее при ховере
+        },
         background: '#fff',
+        border: '1px solid #f0f0f0',
+        position: 'relative',
       }}
     >
-      <Box sx={{ position: 'relative' }}>
+      <Box
+        sx={{
+          position: 'relative',
+          width: '100%',
+          backgroundColor: '#f0f0f0',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          aspectRatio: '1 / 1',
+          borderTopLeftRadius: 16,
+          borderTopRightRadius: 16,
+          overflow: 'hidden',
+        }}
+      >
         <CardMedia
           component="img"
-          height="180"
           image={product.image_url || '/placeholder.png'}
           alt={product.name}
-          sx={{ objectFit: 'contain', borderRadius: 3, background: '#fafafa' }}
+          sx={{ width: '80%', height: 'auto', objectFit: 'contain' }}
         />
         <IconButton
           onClick={handleFavoriteClick}
           sx={{
             position: 'absolute',
-            top: 12,
-            right: 12,
-            background: '#fff',
-            boxShadow: '0 2px 8px 0 rgba(0,0,0,0.08)',
-            '&:hover': { background: '#fff' },
+            top: 10,
+            right: 10,
+            background: 'rgba(204, 201, 201, 0.56)',
+            '&:hover': { background: 'rgba(255, 193, 152, 0.9)' },
             zIndex: 2,
           }}
           color={isFavorite ? 'error' : 'default'}
@@ -103,54 +105,37 @@ export const ProductCard = ({ product, onClick, favoriteId }: ProductCardProps) 
           {isFavorite ? <Favorite /> : <FavoriteBorder />}
         </IconButton>
       </Box>
-      <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', p: 0, pt: 2 }}>
-        <Typography gutterBottom variant="h6" component="div" sx={{ fontWeight: 600, textAlign: 'center', mb: 1 }}>
-          {product.name}
-        </Typography>
-        <Typography 
-          variant="body2" 
-          color="text.secondary" 
-          sx={{ 
-            textAlign: 'center', 
-            mb: 2, 
-            height: '40px',
-            overflow: 'hidden',
-            display: '-webkit-box',
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical',
-            lineHeight: '20px'
-          }}
-        >
-          {product.description || 'Нет описания'}
-        </Typography>
-        <Box sx={{ mt: 'auto', width: '100%' }}>
-          <Typography variant="h6" color="primary" sx={{ mb: 2, fontWeight: 700, color: '#222', textAlign: 'center' }}>
-            {product.price.toLocaleString('ru-RU', { style: 'currency', currency: 'RUB' })}
+      <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', p: 2, pt: 1.5, pb: 1.5 }}>
+        <Box sx={{ mb: 1.5 }}>
+          <Typography variant="h6" component="div" sx={{ fontWeight: 700, fontSize: '1.1rem', color: '#222', mb: 0.5 }}>
+            {product.name}
           </Typography>
-          <Button
-            variant="contained"
-            fullWidth
-            onClick={e => { e.stopPropagation(); if (onClick) onClick(); }}
-            disabled={!product.available}
-            sx={{
-              background: product.available ? '#FF6900' : '#ccc',
-              color: '#fff',
-              borderRadius: 3,
-              fontWeight: 600,
-              fontSize: 16,
-              py: 1.2,
-              boxShadow: 'none',
-              '&:hover': { 
-                background: product.available ? '#ff8500' : '#ccc',
-                boxShadow: product.available ? '0 2px 8px 0 rgba(255,105,0,0.10)' : 'none'
-              },
-              textTransform: 'none',
-            }}
-          >
-            {product.available ? 'Выбрать' : 'Нет в наличии'}
-          </Button>
+          <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500, fontSize: '0.9rem', color: '#666' }}>
+            {product.weight || '400'} г
+          </Typography>
+        </Box>
+        <Box sx={{ mt: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', pt: 1 }}>
+          <Typography variant="h6" sx={{ fontWeight: 700, fontSize: '1.2rem', color: '#222' }}>
+            от {product.price.toLocaleString('ru-RU', { minimumFractionDigits: 0 })} ₽
+          </Typography>
+          {quantity > 0 ? (
+            <Box sx={{ display: 'flex', alignItems: 'center', background: '#dc5b05', borderRadius: 20, color: '#fff', px: 2, py: 0.5 }}>
+              <Typography onClick={handleQuantity(-1)} sx={{ cursor: 'pointer', fontSize: '1.2rem', lineHeight: 1, px: 1 }}>-</Typography>
+              <Typography sx={{ px: 1 }}>{quantity}</Typography>
+              <Typography onClick={handleQuantity(1)} sx={{ cursor: 'pointer', fontSize: '1.2rem', lineHeight: 1, px: 1 }}>+</Typography>
+            </Box>
+          ) : (
+            <Button
+              variant="contained"
+              onClick={e => { e.stopPropagation(); setQuantity(1); onClick?.(); }}
+              disabled={!product.available}
+              sx={{ background: '#dc5b05', color: '#fff', borderRadius: 20, fontWeight: 600, fontSize: '0.85rem', px: 2, py: 0.8, boxShadow: 'none', textTransform: 'none', '&:hover': { background: '#ff8500', boxShadow: 'none' }, minWidth: 100 }}
+            >
+              Выбрать
+            </Button>
+          )}
         </Box>
       </CardContent>
     </Card>
   );
-}; 
+};
