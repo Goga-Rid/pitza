@@ -21,13 +21,13 @@ export const FavoritesPage = () => {
   });
   const { addItem } = useCartStore();
 
-  const allProducts = Object.values(productsByCategory).flat();
+  const allProducts = Object.values(productsByCategory).flat() as Product[];
 
   const favoriteProducts = useMemo(() => {
     const favIds = new Set(favorites.map(f => f.product_id));
     return allProducts
-      .filter(p => favIds.has(p.id))
-      .map(p => ({ ...p, isFavorite: true }));
+      .filter((p: Product) => favIds.has(p.id))
+      .map((p: Product) => ({ ...p, isFavorite: true }));
   }, [favorites, allProducts]);
 
   const handleProductClick = (product: Product) => {

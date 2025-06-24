@@ -53,7 +53,12 @@ export const OrderDetailsPage = () => {
     queryKey: ['products'],
     queryFn: getProducts,
   });
-  const allProducts = useMemo(() => Object.values(productsByCategory).flat(), [productsByCategory]);
+  // Assuming your product type is something like { id: number; name: string; image_url?: string }
+  type Product = { id: number; name: string; image_url?: string };
+  const allProducts = useMemo(
+    () => Object.values(productsByCategory).flat() as Product[],
+    [productsByCategory]
+  );
   const order = data?.order;
   const items = data?.order_items || [];
 

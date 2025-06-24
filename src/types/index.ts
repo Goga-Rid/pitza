@@ -16,6 +16,7 @@ export interface Product {
   image_url: string | null;
   available: boolean;
   created_at: string;
+  weight?: number;
   isFavorite?: boolean;
 }
 
