@@ -68,10 +68,12 @@ export const getCurrentUser = () => {
     // Можно возвращать тестового пользователя (например, первого из users)
     return Promise.resolve({
     
-      "email": "Hexlet@mail.ru",
-      "password": "$2a$10$B9LLKrho//3pj/7h6RicxuMYgl0ixFxKcZK8C7C8GS9lMghWIHXry",
-      "name": "Чувак",
-      "id": 1
+    id: 1,
+    name: "Тестовый пользователь",
+    email: "test@example.com",
+    address: "г. Санкт-Петербург, ул. Пушкина, д. 1",
+    created_at: "2025-06-25T12:00:00.000Z",
+    role: "user"
     
     });
   }
