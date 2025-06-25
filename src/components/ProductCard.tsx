@@ -56,28 +56,25 @@ export const ProductCard = ({ product, onClick, favoriteId }: ProductCardProps) 
       onClick={onClick}
       sx={{
         width: '100%',
-        maxWidth: 400,
-        minWidth: 270,
-        display: 'flex',
-        flexDirection: 'column',
+        maxWidth: { xs: '100%', sm: 400 },
+        minWidth: { xs: 'unset', sm: 270 },
         borderRadius: 4,
-        boxShadow: '0 4px 18px rgba(60,60,60,0.18)', // тень темнее и чуть больше
-        p: 0,
-        transition: 'transform 0.2s, box-shadow 0.2s',
+        boxShadow: '0 2px 12px 0 rgba(220,91,5,0.07)',
+        cursor: 'pointer',
+        transition: 'box-shadow 0.2s',
+        background: '#f0f0f0', // фон карточки как у блока с картинкой
         '&:hover': {
-          transform: 'translateY(-4px)',
-          cursor: 'pointer',
-          boxShadow: '0 8px 28px rgba(60,60,60,0.22)', // тень темнее при ховере
+          boxShadow: '0 4px 24px 0 rgba(220,91,5,0.15)',
         },
-        background: '#fff',
-        border: '1px solid #f0f0f0',
-        position: 'relative',
+        p: { xs: 1, sm: 2 },
+        mb: { xs: 2, sm: 0 },
       }}
     >
       <Box
         sx={{
           position: 'relative',
           width: '100%',
+          height: 'auto',
           backgroundColor: '#f0f0f0',
           display: 'flex',
           alignItems: 'center',
@@ -92,7 +89,15 @@ export const ProductCard = ({ product, onClick, favoriteId }: ProductCardProps) 
           component="img"
           image={product.image_url || '/placeholder.png'}
           alt={product.name}
-          sx={{ width: '80%', height: 'auto', objectFit: 'contain' }}
+          sx={{
+            width: { xs: '82%', sm: '80%' },
+            height: { xs: '82%', sm: '80%' },
+            objectFit: 'contain',
+            backgroundColor: 'transparent',
+            boxShadow: '0 8px 32px 0 rgba(0,0,0,0.10)',
+            borderRadius: '50%',
+            zIndex: 1,
+          }}
         />
         <IconButton
           onClick={handleFavoriteClick}
@@ -109,7 +114,17 @@ export const ProductCard = ({ product, onClick, favoriteId }: ProductCardProps) 
           {isFavorite ? <Favorite /> : <FavoriteBorder />}
         </IconButton>
       </Box>
-      <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', p: 2, pt: 1.5, pb: 1.5 }}>
+      <CardContent sx={{
+        flexGrow: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        p: 2,
+        pt: 1.5,
+        pb: 1.5,
+        background: '#fff', // белый фон только для нижней части
+        borderBottomLeftRadius: 16,
+        borderBottomRightRadius: 16,
+      }}>
         <Box sx={{ mb: 1.5 }}>
           <Typography variant="h6" component="div" sx={{ fontWeight: 700, fontSize: '1.1rem', color: '#222', mb: 0.5 }}>
             {product.name}

@@ -84,7 +84,7 @@ export const HomePage = () => {
 
   return (
     <Box sx={{ background: '#F0F0F0', minHeight: '100vh', py: 0 }}>
-      <Container maxWidth="lg" sx={{ pt: 4, pb:  8}}>
+      <Container maxWidth="lg" sx={{ pt: { xs: 2, sm: 4 }, pb: { xs: 4, sm: 8 } }}>
         <MenuFilters
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
@@ -94,8 +94,13 @@ export const HomePage = () => {
         <Box
           sx={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: 5,
+            gridTemplateColumns: {
+              xs: '1fr', // мобильные
+              sm: 'repeat(2, 1fr)', // планшеты
+              md: 'repeat(3, 1fr)', // небольшие десктопы
+              lg: 'repeat(4, 1fr)', // большие экраны
+            },
+            gap: { xs: 2, sm: 3, md: 4, lg: 5 },
           }}
         >
           {filteredProducts.map((product) => (

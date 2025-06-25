@@ -87,54 +87,61 @@ export const CartDrawer = ({ open, onClose }: CartDrawerProps) => {
   };
 
   return (
-    <Drawer anchor="right" open={open} onClose={onClose} PaperProps={{ sx: { width: 400, maxWidth: '100vw', p: 0 } }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 2 }}>
-        <Typography variant="h6" sx={{ fontWeight: 700 }}>{totalCount} товар{totalCount === 1 ? '' : totalCount < 5 ? 'а' : 'ов'} на {total.toLocaleString('ru-RU', { style: 'currency', currency: 'RUB' })}</Typography>
-        <IconButton onClick={onClose}><CloseIcon /></IconButton>
+    <Drawer
+      anchor="right"
+      open={open}
+      onClose={onClose}
+      PaperProps={{ sx: { width: { xs: '100vw', sm: 420 }, maxWidth: '100vw' } }}
+    >
+      <Box sx={{ p: { xs: 1, sm: 3 }, minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+          <Typography variant="h6" sx={{ fontWeight: 700 }}>{totalCount} товар{totalCount === 1 ? '' : totalCount < 5 ? 'а' : 'ов'} на {total.toLocaleString('ru-RU', { style: 'currency', currency: 'RUB' })}</Typography>
+          <IconButton onClick={onClose}><CloseIcon /></IconButton>
+        </Box>
+        <Divider />
+        <List sx={{ p: 0 }}>
+          {products.length === 0 && (
+            <ListItem>
+              <ListItemText primary="Корзина пуста" />
+            </ListItem>
+          )}
+          {products.map(({ item, count }) => (
+            <ListItem key={item.product.id} sx={{ alignItems: 'flex-start' }}>
+              <Box component="img" src={item.product.image_url || '/placeholder.png'} alt={item.product.name} sx={{ width: 64, height: 64, objectFit: 'cover', borderRadius: 2, mr: 2 }} />
+              <ListItemText
+                primary={item.product.name}
+                secondary={item.product.price.toLocaleString('ru-RU', { style: 'currency', currency: 'RUB' })}
+              />
+              <ListItemSecondaryAction sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <IconButton size="small" onClick={() => updateQuantity(item.product.id, count - 1)} disabled={count <= 1}><RemoveIcon /></IconButton>
+                <Typography>{count}</Typography>
+                <IconButton size="small" onClick={() => addItem(item.product)}><AddIcon /></IconButton>
+                <IconButton size="small" onClick={() => removeItem(item.product.id)}><DeleteIcon /></IconButton>
+              </ListItemSecondaryAction>
+            </ListItem>
+          ))}
+        </List>
+        <Divider sx={{ mt: 2 }} />
+        <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <Typography variant="h6" sx={{ fontWeight: 700 }}>Сумма заказа: {total.toLocaleString('ru-RU', { style: 'currency', currency: 'RUB' })}</Typography>
+          {orderError && <Typography color="error" sx={{ mb: 1 }}>{orderError}</Typography>}
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            size="large"
+            sx={{ fontWeight: 700, fontSize: 18, py: 1.5, background: '#FF6900', color: '#fff', borderRadius: 3, textTransform: 'none' }}
+            onClick={handleOrder}
+            disabled={products.length === 0 || isOrderPending}
+          >
+            {isOrderPending ? 'Оформляем...' : 'К оформлению заказа'}
+          </Button>
+          <Button variant="outlined" color="error" fullWidth size="large" sx={{ fontWeight: 700, fontSize: 16, borderRadius: 3, textTransform: 'none' }} onClick={clearCart} disabled={products.length === 0}>
+            Очистить корзину
+          </Button>
+        </Box>
+        <AddressModal open={addressModalOpen} onClose={() => setAddressModalOpen(false)} onSuccess={handleAddressSuccess} />
       </Box>
-      <Divider />
-      <List sx={{ p: 0 }}>
-        {products.length === 0 && (
-          <ListItem>
-            <ListItemText primary="Корзина пуста" />
-          </ListItem>
-        )}
-        {products.map(({ item, count }) => (
-          <ListItem key={item.product.id} sx={{ alignItems: 'flex-start' }}>
-            <Box component="img" src={item.product.image_url || '/placeholder.png'} alt={item.product.name} sx={{ width: 64, height: 64, objectFit: 'cover', borderRadius: 2, mr: 2 }} />
-            <ListItemText
-              primary={item.product.name}
-              secondary={item.product.price.toLocaleString('ru-RU', { style: 'currency', currency: 'RUB' })}
-            />
-            <ListItemSecondaryAction sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <IconButton size="small" onClick={() => updateQuantity(item.product.id, count - 1)} disabled={count <= 1}><RemoveIcon /></IconButton>
-              <Typography>{count}</Typography>
-              <IconButton size="small" onClick={() => addItem(item.product)}><AddIcon /></IconButton>
-              <IconButton size="small" onClick={() => removeItem(item.product.id)}><DeleteIcon /></IconButton>
-            </ListItemSecondaryAction>
-          </ListItem>
-        ))}
-      </List>
-      <Divider sx={{ mt: 2 }} />
-      <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
-        <Typography variant="h6" sx={{ fontWeight: 700 }}>Сумма заказа: {total.toLocaleString('ru-RU', { style: 'currency', currency: 'RUB' })}</Typography>
-        {orderError && <Typography color="error" sx={{ mb: 1 }}>{orderError}</Typography>}
-        <Button
-          variant="contained"
-          color="primary"
-          fullWidth
-          size="large"
-          sx={{ fontWeight: 700, fontSize: 18, py: 1.5, background: '#FF6900', color: '#fff', borderRadius: 3, textTransform: 'none' }}
-          onClick={handleOrder}
-          disabled={products.length === 0 || isOrderPending}
-        >
-          {isOrderPending ? 'Оформляем...' : 'К оформлению заказа'}
-        </Button>
-        <Button variant="outlined" color="error" fullWidth size="large" sx={{ fontWeight: 700, fontSize: 16, borderRadius: 3, textTransform: 'none' }} onClick={clearCart} disabled={products.length === 0}>
-          Очистить корзину
-        </Button>
-      </Box>
-      <AddressModal open={addressModalOpen} onClose={() => setAddressModalOpen(false)} onSuccess={handleAddressSuccess} />
     </Drawer>
   );
 };

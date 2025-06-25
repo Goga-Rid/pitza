@@ -49,7 +49,7 @@ export const AddressModal = ({ open, onClose, onSuccess }: AddressModalProps) =>
       onClose={onClose}
       maxWidth="sm"
       fullWidth
-      PaperProps={{ sx: { borderRadius: 4 } }}
+      PaperProps={{ sx: { borderRadius: 4, p: { xs: 1, sm: 2 } } }}
     >
       <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', pb: 2 }}>
         <Typography variant="h6" sx={{ fontWeight: 700 }}>Укажите адрес доставки</Typography>
@@ -95,4 +95,4 @@ export const AddressModal = ({ open, onClose, onSuccess }: AddressModalProps) =>
       </form>
     </Dialog>
   );
-}; 
+};

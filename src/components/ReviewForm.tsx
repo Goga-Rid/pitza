@@ -39,7 +39,7 @@ export const ReviewForm = ({ productId, productName, onClose }: ReviewFormProps)
   };
 
   return (
-    <Dialog open onClose={onClose} maxWidth="sm" fullWidth>
+    <Dialog open onClose={onClose} maxWidth="sm" fullWidth PaperProps={{ sx: { p: { xs: 1, sm: 2 } } }}>
       <DialogTitle>Оценить {productName}</DialogTitle>
       <DialogContent>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}>
@@ -73,4 +73,4 @@ export const ReviewForm = ({ productId, productName, onClose }: ReviewFormProps)
       </DialogActions>
     </Dialog>
   );
-}; 
+};

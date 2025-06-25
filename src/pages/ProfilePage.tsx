@@ -105,11 +105,11 @@ export const ProfilePage = () => {
   }
 
   return (
-    <Box sx={{ maxWidth: 500, mx: 'auto', mt: 6, mb: 8 }}>
-      <Typography variant="h4" sx={{ fontWeight: 800, mb: 4 }}>
+    <Box sx={{ maxWidth: 500, mx: 'auto', mt: { xs: 2, sm: 6 }, mb: { xs: 4, sm: 8 }, px: { xs: 1, sm: 0 } }}>
+      <Typography variant="h4" sx={{ fontWeight: 800, mb: { xs: 2, sm: 4 }, textAlign: { xs: 'center', sm: 'left' } }}>
         Профиль
       </Typography>
-      <Paper elevation={2} sx={{ p: 4, borderRadius: 4 }}>
+      <Paper elevation={2} sx={{ p: { xs: 2, sm: 4 }, borderRadius: 4 }}>
         {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
         {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
@@ -148,14 +148,14 @@ export const ProfilePage = () => {
             variant="contained"
             color="primary"
             fullWidth
-            sx={{ mt: 2, fontWeight: 700, background: '#FF6900', color: '#fff', borderRadius: 3, textTransform: 'none' }}
+            sx={{ mt: 2, fontWeight: 700, background: '#FF6900', color: '#fff', borderRadius: 3, textTransform: 'none', fontSize: { xs: 14, sm: 16 } }}
             onClick={handleSave}
             disabled={saving}
           >
             {saving ? 'Сохраняем...' : 'Сохранить'}
           </Button>
         )}
-        <Divider sx={{ my: 4 }} />
+        <Divider sx={{ my: { xs: 2, sm: 4 } }} />
         <Typography variant="h6" sx={{ fontWeight: 700, mb: 2 }}>
           Сменить пароль
         </Typography>
@@ -188,7 +188,7 @@ export const ProfilePage = () => {
           variant="outlined"
           color="primary"
           fullWidth
-          sx={{ mt: 2, fontWeight: 700, borderRadius: 3, textTransform: 'none' }}
+          sx={{ mt: 2, fontWeight: 700, borderRadius: 3, textTransform: 'none', fontSize: { xs: 14, sm: 16 } }}
           disabled={!oldPassword || !newPassword}
           onClick={handleChangePassword}
         >
@@ -197,4 +197,4 @@ export const ProfilePage = () => {
       </Paper>
     </Box>
   );
-}; 
+};

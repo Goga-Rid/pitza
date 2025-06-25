@@ -63,20 +63,20 @@ export const OrdersPage = () => {
   }
 
   return (
-    <Box sx={{ maxWidth: 900, mx: 'auto', mt: 6, mb: 8 }}>
-      <Typography variant="h4" sx={{ fontWeight: 800, mb: 4 }}>
+    <Box sx={{ maxWidth: 900, mx: 'auto', mt: { xs: 2, sm: 6 }, mb: { xs: 4, sm: 8 }, px: { xs: 1, sm: 0 } }}>
+      <Typography variant="h4" sx={{ fontWeight: 800, mb: { xs: 2, sm: 4 }, textAlign: { xs: 'center', sm: 'left' } }}>
         Мои заказы
       </Typography>
       {orders.length === 0 ? (
-        <Typography color="text.secondary">У вас пока нет заказов.</Typography>
+        <Typography color="text.secondary" sx={{ textAlign: { xs: 'center', sm: 'left' } }}>У вас пока нет заказов.</Typography>
       ) : (
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: { xs: 2, sm: 3 } }}>
           {orders.map(({ order, item_count }) => {
             console.log('Order status:', order.status, 'Config:', statusConfig[order.status]);
             return (
-              <Card elevation={2} key={order.id}>
+              <Card elevation={2} key={order.id} sx={{ borderRadius: 3 }}>
                 <CardActionArea onClick={() => navigate(`/orders/${order.id}`)}>
-                  <CardContent sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 2 }}>
+                  <CardContent sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, alignItems: { xs: 'flex-start', sm: 'center' }, justifyContent: 'space-between', gap: 2 }}>
                     <Box>
                       <Typography variant="h6" sx={{ fontWeight: 700 }}>
                         Заказ №{order.id}
@@ -97,7 +97,7 @@ export const OrdersPage = () => {
                         }}
                       />
                     </Box>
-                    <Box sx={{ textAlign: 'right' }}>
+                    <Box sx={{ textAlign: { xs: 'left', sm: 'right' }, mt: { xs: 2, sm: 0 } }}>
                       <Typography variant="h6" sx={{ fontWeight: 700 }}>
                         {order.total.toLocaleString('ru-RU', { style: 'currency', currency: 'RUB' })}
                       </Typography>

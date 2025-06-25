@@ -85,7 +85,7 @@ function App() {
   useEffect(() => {
     const script = document.createElement('script');
     script.async = true;
-    script.src = 'https://embed.tawk.to/682b4a088a69ef190bcc9011/1irkhicp4';
+    script.src = 'https://embed.tawk.to/685bfa51290914190fd2d5f3/1iujl6ud2';
     script.charset = 'UTF-8';
     script.setAttribute('crossorigin', '*');
     document.body.appendChild(script);

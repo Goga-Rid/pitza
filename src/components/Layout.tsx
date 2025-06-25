@@ -14,19 +14,19 @@ export const Layout = ({ children }: LayoutProps) => {
   const { items } = useCartStore();
 
   return (
-    <Box sx={{ background: '#fff', minHeight: '100vh' }}>
+    <Box sx={{ background: '#fff', minHeight: '100vh', px: { xs: 0, sm: 0 } }}>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar sx={{ flexDirection: { xs: 'column', sm: 'row' }, alignItems: { xs: 'flex-start', sm: 'center' }, px: { xs: 1, sm: 2 } }}>
           <Typography
             variant="h6"
             component={RouterLink}
             to="/"
-            sx={{ flexGrow: 1, textDecoration: 'none', color: 'inherit' }}
+            sx={{ flexGrow: 1, textDecoration: 'none', color: 'inherit', mb: { xs: 1, sm: 0 }, mt: { xs: 1, sm: 0 } }}
           >
             Pizza Delivery
           </Typography>
 
-          <Box sx={{ display: 'flex', gap: 2 }}>
+          <Box sx={{ display: 'flex', gap: { xs: 1, sm: 2 }, width: '100%', justifyContent: { xs: 'center', sm: 'flex-end' } }}>
             <IconButton
               component={RouterLink}
               to="/favorites"
@@ -104,4 +104,4 @@ export const Layout = ({ children }: LayoutProps) => {
       </Box>
     </Box>
   );
-}; 
+};

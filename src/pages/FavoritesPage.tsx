@@ -61,13 +61,13 @@ export const FavoritesPage = () => {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ pt: 6, pb: 8 }}>
-      <Typography variant="h4" sx={{ fontWeight: 800, mb: 5, letterSpacing: 0.5, textAlign: 'left' }}>
+    <Container maxWidth="lg" sx={{ pt: { xs: 2, sm: 6 }, pb: { xs: 4, sm: 8 } }}>
+      <Typography variant="h4" sx={{ fontWeight: 800, mb: { xs: 2, sm: 5 }, letterSpacing: 0.5, textAlign: { xs: 'center', sm: 'left' } }}>
         Избранное
       </Typography>
       {favoriteProducts.length === 0 ? (
         <Box sx={{ mt: 2 }}>
-          <Typography color="text.secondary" variant="h6" sx={{ textAlign: 'left' }}>
+          <Typography color="text.secondary" variant="h6" sx={{ textAlign: { xs: 'center', sm: 'left' } }}>
             У вас нет избранных товаров
           </Typography>
         </Box>
@@ -75,8 +75,13 @@ export const FavoritesPage = () => {
         <Box
           sx={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: 5,
+            gridTemplateColumns: {
+              xs: '1fr',
+              sm: 'repeat(2, 1fr)',
+              md: 'repeat(3, 1fr)',
+              lg: 'repeat(4, 1fr)',
+            },
+            gap: { xs: 2, sm: 3, md: 4, lg: 5 },
           }}
         >
           {favoriteProducts.map(product => (
@@ -96,4 +101,4 @@ export const FavoritesPage = () => {
       />
     </Container>
   );
-}; 
+};

@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCartStore } from '../store/cartStore';
 import { useAuthStore } from '../store/authStore';
 import { CartDrawer } from './CartDrawer';
-import logo from '../assets/header_logo.svg'
+import logo from '../assets/header_logo.svg';
 
 export const Topbar = () => {
   const navigate = useNavigate();
@@ -49,13 +49,20 @@ export const Topbar = () => {
           background: '#F0F0F0', 
           color: '#222', 
           borderBottom: '1px solid #eee',
-          minHeight: 72,
+          minHeight: { xs: 56, sm: 72 },
           justifyContent: 'center'
         }}
       >
-        <Toolbar sx={{ maxWidth: 1280, width: '100%', mx: 'auto', minHeight: 72, px: 3 }}>
-          {/* Логотип */}
-          <Box sx={{ display: 'flex', alignItems: 'center', mr: 4 }}>
+        <Toolbar sx={{ 
+          maxWidth: 1280, 
+          width: '100%', 
+          mx: 'auto', 
+          minHeight: { xs: 22, sm: 72 }, 
+          px: { xs: 1, sm: 3 },
+          py: { xs: 1, sm: 0 }
+        }}>
+          {/* Логотип - уменьшен на мобильных */}
+          <Box sx={{ display: 'flex', alignItems: 'center', mr: { xs: 1, sm: 4 } }}>
             <Box 
               onClick={() => navigate('/')} 
               sx={{ 
@@ -67,14 +74,13 @@ export const Topbar = () => {
             >
               <Box
                 sx={{
-                width: 200,
-                height: 60,
-                backgroundImage: `url(${logo})`,
-                backgroundSize: 'contain',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                mr: 1.5,
-                mt: 3
+                  width: { xs: 100, sm: 200 },
+                  height: { xs: 30, sm: 60 },
+                  backgroundImage: `url(${logo})`,
+                  backgroundSize: 'contain',
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat',
+                  mr: { xs: 0.5, sm: 1.5 }
                 }}
               />
             </Box>
@@ -83,111 +89,137 @@ export const Topbar = () => {
           {/* Spacer */}
           <Box sx={{ flexGrow: 1 }} />
 
-          {/* Правая часть */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mt: 4}}>
-            {/* Cart — всегда доступна */}
-            <Box sx={{ 
-              display: 'flex', 
-              flexDirection: 'column', 
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: 75,
-              height: 60
-            }}>
-              <IconButton 
-                color="inherit" 
-                onClick={handleCartOpen}
-                sx={{ p: 0 }}
+          {/* Правая часть - компактная на мобильных */}
+          <Box sx={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: { xs: 0, sm: 1.5 },
+            '& > *': {
+              mx: { xs: 0.5, sm: 0 }
+            }
+          }}>
+            {/* Корзина - иконка без текста на мобильных */}
+            <IconButton 
+              color="inherit" 
+              onClick={handleCartOpen}
+              sx={{ 
+                p: { xs: 0.5, sm: 1 },
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center'
+              }}
+            >
+              <Badge badgeContent={items.length} color="primary">
+                <ShoppingCartIcon sx={{ fontSize: { xs: 24, sm: 30 } }}/>
+              </Badge>
+              <Typography 
+                variant="caption" 
+                sx={{ 
+                  display: { xs: 'none', sm: 'block' },
+                  fontSize: 13, 
+                  fontWeight: 600, 
+                  mt: 0.5 
+                }}
               >
-                <Badge badgeContent={items.length} color="primary">
-                  <ShoppingCartIcon sx={{ fontSize: 40 }}/>
-                </Badge>
-              </IconButton>
-              <Typography variant="caption" sx={{ fontSize: 13, fontWeight: 600, mt: 0.5 }}>
                 Корзина
               </Typography>
-            </Box>
-            {/* Favorites и профиль — только для авторизованных */}
+            </IconButton>
+
+            {/* Избранное - только для авторизованных */}
             {isAuthenticated && (
               <>
-                {/* Favorites */}
-                <Box sx={{ 
-                  display: 'flex', 
-                  flexDirection: 'column', 
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: 75
-                }}>
-                  <IconButton 
-                    color="inherit" 
-                    onClick={() => navigate('/favorites')}
-                    sx={{ p: 0 }}
+                <IconButton 
+                  color="inherit" 
+                  onClick={() => navigate('/favorites')}
+                  sx={{ 
+                    p: { xs: 0.5, sm: 1 },
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center'
+                  }}
+                >
+                  <FavoriteBorderIcon sx={{ fontSize: { xs: 24, sm: 30 } }}/>
+                  <Typography 
+                    variant="caption" 
+                    sx={{ 
+                      display: { xs: 'none', sm: 'block' },
+                      fontSize: 13, 
+                      fontWeight: 600, 
+                      mt: 0.5 
+                    }}
                   >
-                    <FavoriteBorderIcon sx={{ fontSize: 40 }}/>
-                  </IconButton>
-                  <Typography variant="caption" sx={{ fontSize: 13, fontWeight: 600, mt: 0.5 }}>
                     Избранное
                   </Typography>
-                </Box>
-                {/* Profile */}
-                <Box sx={{ 
-                  display: 'flex', 
-                  flexDirection: 'column', 
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: 75
-                }}>
-                  <IconButton
-                    onClick={handleMenu}
-                    color="inherit"
-                    sx={{ p: 0 }}
+                </IconButton>
+
+                {/* Профиль - аватар без текста на мобильных */}
+                <IconButton
+                  onClick={handleMenu}
+                  color="inherit"
+                  sx={{ 
+                    p: { xs: 0.5, sm: 1 },
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center'
+                  }}
+                >
+                  <Avatar sx={{ 
+                    width: { xs: 28, sm: 40 }, 
+                    height: { xs: 28, sm: 40 }, 
+                    bgcolor: '#dc5b05' 
+                  }}>
+                    {user?.name?.[0]?.toUpperCase() || <PersonIcon />}
+                  </Avatar>
+                  <Typography 
+                    variant="caption" 
+                    sx={{ 
+                      display: { xs: 'none', sm: 'block' },
+                      fontSize: 13, 
+                      fontWeight: 600, 
+                      mt: 0.5 
+                    }}
                   >
-                    <Avatar sx={{ width: 43, height: 43, bgcolor: '#dc5b05' }}>
-                      {user?.name?.[0]?.toUpperCase() || <PersonIcon />}
-                    </Avatar>
-                  </IconButton>
-                  <Typography variant="caption" sx={{ fontSize: 13, fontWeight: 600, mt: 0.5 }}>
                     Профиль
                   </Typography>
-                </Box>
-                <Menu
-                  anchorEl={anchorEl}
-                  open={Boolean(anchorEl)}
-                  onClose={handleClose}
-                  PaperProps={{ sx: { mt: 1.5, minWidth: 180 } }}
-                >
-                  <MenuItem onClick={() => { navigate('/profile'); handleClose(); }}>
-                    Профиль
-                  </MenuItem>
-                  <MenuItem onClick={() => { navigate('/orders'); handleClose(); }}>
-                    Мои заказы
-                  </MenuItem>
-                  <MenuItem onClick={handleLogout}>
-                    Выйти
-                  </MenuItem>
-                </Menu>
+                </IconButton>
               </>
             )}
-            {/* Кнопки Войти/Регистрация — только если не авторизован */}
+
+            {/* Кнопки входа/регистрации - компактные на мобильных */}
             {!isAuthenticated && (
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <Box sx={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: { xs: 0.5, sm: 2 },
+                ml: { xs: 0.5, sm: 0 }
+              }}>
                 <Button
                   variant="outlined"
                   color="primary"
                   onClick={() => navigate('/login')}
-                  startIcon={<LoginIcon />}
                   sx={{
-                    width: 140,
-                    height: 40,
+                    minWidth: { xs: 36, sm: 140 },
+                    width: { xs: 36, sm: 'auto' },
+                    height: { xs: 32, sm: 40 },
                     borderRadius: 2,
                     textTransform: 'none',
                     fontWeight: 600,
-                    px: 3,
+                    px: { xs: 0, sm: 3 },
                     boxShadow: 'none',
                     borderColor: '#dc5b05',
                     color: '#dc5b05',
-                    fontSize: 16,
-                    transition: 'all 0.2s',
+                    fontSize: { xs: 0, sm: 16 },
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    '& .MuiButton-startIcon': {
+                      mr: 0,
+                      ml: 0,
+                      display: 'flex',
+                    },
+                    '& span': {
+                      display: { xs: 'none', sm: 'inline' },
+                    },
                     '&:hover': {
                       borderColor: '#b94a04',
                       backgroundColor: '#ffc198e6',
@@ -195,25 +227,36 @@ export const Topbar = () => {
                     },
                   }}
                 >
-                  Войти
+                  <LoginIcon sx={{ display: { xs: 'inline', sm: 'none' }, fontSize: 20 }} />
+                  <span>Войти</span>
                 </Button>
                 <Button
                   variant="contained"
                   color="primary"
-                  startIcon={<DriveFileRenameOutlineIcon />}
                   onClick={() => navigate('/register')}
                   sx={{
-                    width: 160,
-                    height: 40,
+                    minWidth: { xs: 36, sm: 160 },
+                    width: { xs: 36, sm: 'auto' },
+                    height: { xs: 32, sm: 40 },
                     borderRadius: 2,
                     textTransform: 'none',
                     fontWeight: 600,
-                    px: 3,
+                    px: { xs: 0, sm: 3 },
                     backgroundColor: '#dc5b05',
                     color: '#fff',
-                    fontSize: 16,
+                    fontSize: { xs: 0, sm: 16 },
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                     boxShadow: '0 2px 8px rgba(220,91,5,0.10)',
-                    transition: 'all 0.2s',
+                    '& .MuiButton-startIcon': {
+                      mr: 0,
+                      ml: 0,
+                      display: 'flex',
+                    },
+                    '& span': {
+                      display: { xs: 'none', sm: 'inline' },
+                    },
                     '&:hover': {
                       backgroundColor: '#b94a04',
                       color: '#fff',
@@ -221,11 +264,47 @@ export const Topbar = () => {
                     },
                   }}
                 >
-                  Регистрация
+                  <DriveFileRenameOutlineIcon sx={{ display: { xs: 'inline', sm: 'none' }, fontSize: 20 }} />
+                  <span>Регистрация</span>
                 </Button>
               </Box>
             )}
           </Box>
+
+          {/* Меню профиля */}
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+            PaperProps={{ 
+              sx: { 
+                mt: 1.5, 
+                minWidth: 140,
+                boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
+              } 
+            }}
+            transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+          >
+            <MenuItem 
+              onClick={() => { navigate('/profile'); handleClose(); }}
+              sx={{ py: { xs: 0.75, sm: 1 } }}
+            >
+              Профиль
+            </MenuItem>
+            <MenuItem 
+              onClick={() => { navigate('/orders'); handleClose(); }}
+              sx={{ py: { xs: 0.75, sm: 1 } }}
+            >
+              Мои заказы
+            </MenuItem>
+            <MenuItem 
+              onClick={handleLogout}
+              sx={{ py: { xs: 0.75, sm: 1 } }}
+            >
+              Выйти
+            </MenuItem>
+          </Menu>
         </Toolbar>
       </AppBar>
       <CartDrawer open={cartOpen} onClose={handleCartClose} />

@@ -51,52 +51,122 @@ export const ProductModal = ({ open, onClose, product }: ProductModalProps) => {
     : 0;
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md" PaperProps={{ sx: { borderRadius: 4, p: 2 } }}>
-      <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', pb: 0 }}>
-        <Typography variant="h6" sx={{ fontWeight: 700 }}>{product.name}</Typography>
-        <IconButton onClick={onClose}>
+    <Dialog
+      open={open}
+      onClose={onClose}
+      maxWidth="md"
+      fullWidth
+      PaperProps={{
+        sx: {
+          borderRadius: { xs: 0, sm: 4 },
+          p: { xs: 0, sm: 2 },
+          m: 0,
+          width: '100vw',
+          maxWidth: { xs: '100vw', sm: '700px' },
+        },
+      }}
+    >
+      <DialogTitle
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          pb: 0,
+          px: { xs: 2, sm: 3 },
+          pt: { xs: 2, sm: 2 },
+        }}
+      >
+        <Typography variant="h6" sx={{ fontWeight: 700, fontSize: { xs: 18, sm: 24 } }}>{product.name}</Typography>
+        <IconButton onClick={onClose} sx={{ ml: 1 }}>
           <CloseIcon />
         </IconButton>
       </DialogTitle>
-      <DialogContent sx={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', gap: 4, pt: 2 }}>
-        <Box sx={{ flex: '0 0 320px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <DialogContent
+        sx={{
+          display: 'flex',
+          flexDirection: { xs: 'column', sm: 'row' },
+          alignItems: { xs: 'center', sm: 'flex-start' },
+          gap: { xs: 2, sm: 4 },
+          pt: { xs: 1, sm: 2 },
+          px: { xs: 2, sm: 2 },
+          pb: { xs: 2, sm: 2 },
+        }}
+      >
+        <Box
+          sx={{
+            flex: { xs: 'unset', sm: '0 0 320px' },
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: { xs: '100%', sm: 320 },
+            mb: { xs: 2, sm: 0 },
+          }}
+        >
           <Box
             component="img"
             src={product.image_url || '/placeholder.png'}
             alt={product.name}
-            sx={{ width: 320, height: 320, objectFit: 'contain', borderRadius: 3, background: '#fafafa' }}
+            sx={{
+              width: { xs: '90vw', sm: 320 },
+              maxWidth: { xs: 340, sm: 320 },
+              height: { xs: '90vw', sm: 320 },
+              maxHeight: { xs: 340, sm: 320 },
+              objectFit: 'contain',
+              borderRadius: 3,
+              background: '#fafafa',
+              mx: { xs: 'auto', sm: 0 },
+              display: 'block',
+              boxShadow: { xs: 1, sm: 0 },
+            }}
           />
         </Box>
-        <Box sx={{ flex: 1, minWidth: 260, display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
+        <Box
+          sx={{
+            flex: 1,
+            minWidth: { xs: 'unset', sm: 260 },
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
+            width: '100%',
+            px: 0,
+          }}
+        >
+          <Typography variant="body1" color="text.secondary" sx={{ mb: 2, fontSize: { xs: 15, sm: 16 } }}>
             {product.description || 'Нет описания'}
           </Typography>
-          
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-            <Rating value={averageRating} precision={0.5} readOnly />
-            <Typography variant="body2" color="text.secondary">
+            <Rating value={averageRating} precision={0.5} readOnly size={typeof window !== 'undefined' && window.innerWidth < 600 ? 'small' : 'medium'} />
+            <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: 13, sm: 14 } }}>
               ({reviews.length} {reviews.length === 1 ? 'отзыв' : 'отзывов'})
             </Typography>
           </Box>
-
-          <Typography variant="h5" sx={{ fontWeight: 700, mb: 2 }}>
+          <Typography variant="h5" sx={{ fontWeight: 700, mb: 2, fontSize: { xs: 20, sm: 28 } }}>
             {product.price.toLocaleString('ru-RU', { style: 'currency', currency: 'RUB' })}
           </Typography>
-          
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
-            <IconButton onClick={handleRemove} size="small" sx={{ border: '1px solid #eee' }}>
+            <IconButton onClick={handleRemove} size="small" sx={{ border: '1px solid #eee', width: 36, height: 36 }}>
               <RemoveIcon />
             </IconButton>
-            <Typography variant="h6" sx={{ minWidth: 32, textAlign: 'center' }}>{quantity}</Typography>
-            <IconButton onClick={handleAdd} size="small" sx={{ border: '1px solid #eee' }}>
+            <Typography variant="h6" sx={{ minWidth: 32, textAlign: 'center', fontSize: { xs: 18, sm: 20 } }}>{quantity}</Typography>
+            <IconButton onClick={handleAdd} size="small" sx={{ border: '1px solid #eee', width: 36, height: 36 }}>
               <AddIcon />
             </IconButton>
           </Box>
-
           <Button
             variant="contained"
             size="large"
-            sx={{ background: '#dc5b05', color: '#fff', borderRadius: 3, fontWeight: 700, fontSize: 18, py: 1.5, mt: 2, textTransform: 'none' }}
+            sx={{
+              background: '#dc5b05',
+              color: '#fff',
+              borderRadius: 3,
+              fontWeight: 700,
+              fontSize: { xs: 17, sm: 18 },
+              py: 1.5,
+              mt: 2,
+              textTransform: 'none',
+              width: '100%',
+              boxShadow: { xs: 2, sm: 0 },
+            }}
             fullWidth
             onClick={handleAddToCart}
             disabled={!product.available}
@@ -106,11 +176,10 @@ export const ProductModal = ({ open, onClose, product }: ProductModalProps) => {
               : 'Нет в наличии'
             }
           </Button>
-
           {reviews.length > 0 && (
             <>
               <Divider sx={{ my: 3 }} />
-              <Typography variant="h6" sx={{ mb: 2 }}>Отзывы</Typography>
+              <Typography variant="h6" sx={{ mb: 2, fontSize: { xs: 16, sm: 20 } }}>Отзывы</Typography>
               {reviewsLoading ? (
                 <Box sx={{ display: 'flex', justifyContent: 'center', py: 2 }}>
                   <CircularProgress size={24} />
@@ -144,4 +213,4 @@ export const ProductModal = ({ open, onClose, product }: ProductModalProps) => {
       </DialogContent>
     </Dialog>
   );
-}; 
+};

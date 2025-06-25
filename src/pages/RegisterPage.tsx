@@ -61,14 +61,14 @@ export const RegisterPage = () => {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ pt: 8, pb: 8 }}>
-      <Box sx={{ maxWidth: 400, mx: 'auto' }}>
-        <Typography variant="h4" sx={{ fontWeight: 800, mb: 4, textAlign: 'center' }}>
+    <Container maxWidth="lg" sx={{ pt: { xs: 2, sm: 8 }, pb: { xs: 4, sm: 8 } }}>
+      <Box sx={{ maxWidth: 400, mx: 'auto', px: { xs: 1, sm: 0 } }}>
+        <Typography variant="h4" sx={{ fontWeight: 800, mb: { xs: 2, sm: 4 }, textAlign: 'center' }}>
           Регистрация
         </Typography>
 
         <Card sx={{ borderRadius: 4, boxShadow: '0 4px 24px 0 rgba(0,0,0,0.05)' }}>
-          <CardContent sx={{ p: 4 }}>
+          <CardContent sx={{ p: { xs: 2, sm: 4 } }}>
             {error && (
               <Alert severity="error" sx={{ mb: 3, borderRadius: 2 }}>
                 {error}
@@ -152,7 +152,7 @@ export const RegisterPage = () => {
               >
                 {isPending ? 'Регистрация...' : 'Зарегистрироваться'}
               </Button>
-              <Typography align="center" color="text.secondary">
+              <Typography align="center" color="text.secondary" sx={{ fontSize: { xs: 14, sm: 16 } }}>
                 Уже есть аккаунт?{' '}
                 <Link 
                   to="/login" 
