@@ -52,7 +52,7 @@ export const AddressModal = ({ open, onClose, onSuccess }: AddressModalProps) =>
       PaperProps={{ sx: { borderRadius: 4, p: { xs: 1, sm: 2 } } }}
     >
       <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', pb: 2 }}>
-        <Typography variant="h6" sx={{ fontWeight: 700 }}>Укажите адрес доставки</Typography>
+        <Typography variant="h6" sx={{ fontWeight: 700 }} component="span">Укажите адрес доставки</Typography>
         <IconButton onClick={onClose} size="small">
           <CloseIcon />
         </IconButton>

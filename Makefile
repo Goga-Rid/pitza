@@ -34,7 +34,7 @@ test-unit:
 	npm run test
 
 test-e2e:
-	npm run mock:backend & sleep 5 && npm run dev & sleep 5 && npm run test:e2e:ci
+	npm run mock:backend > /dev/null 2>&1 & sleep 5 && npm run dev & sleep 5 && npm run test:e2e:ci
 
 clean-test-results:
 	npm run clean:test-results

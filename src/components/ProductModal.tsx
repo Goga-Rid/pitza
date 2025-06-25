@@ -76,7 +76,7 @@ export const ProductModal = ({ open, onClose, product }: ProductModalProps) => {
           pt: { xs: 2, sm: 2 },
         }}
       >
-        <Typography variant="h6" sx={{ fontWeight: 700, fontSize: { xs: 18, sm: 24 } }}>{product.name}</Typography>
+        <Typography variant="h6" sx={{ fontWeight: 700, fontSize: { xs: 18, sm: 24 } }} component="span">{product.name}</Typography>
         <IconButton onClick={onClose} sx={{ ml: 1 }}>
           <CloseIcon />
         </IconButton>
